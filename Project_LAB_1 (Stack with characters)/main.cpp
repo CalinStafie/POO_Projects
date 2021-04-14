@@ -26,8 +26,13 @@ class Nod
     char get_info();
     Nod *get_next();
 
+    //Am comentat destructorul pentru Nod deoarece in constructorul de initializare nu am alocat zona de memorie,
+    //nu am crea nimic nou, deci nu avem de sters nimic
+    //Mai mult daca lasam destructorul pentru clasa Nod stergea de fiecare data orice Nod local, ceea ce va provoca,
+    //ulterior, erori in metodele pentru clasa Stiva_de_caractere
+
     //destructor
-    ~Nod();
+    //~Nod();
 };
 
 Nod::Nod()
@@ -56,11 +61,11 @@ Nod* Nod::get_next()
 {
     return this->next;
 }
-Nod::~Nod()
+/*Nod::~Nod()
 {
     if(next != NULL)
         delete next;
-}
+}*/
 
 
 //clasa Stiva_de_caractere
@@ -184,7 +189,6 @@ void Stiva_de_caractere::push(char caracter)
         Nod* q = new Nod();
         q->set_info(caracter);
         varf_stiva = q;
-        delete q;
     }
     else
     {
@@ -192,8 +196,6 @@ void Stiva_de_caractere::push(char caracter)
         p ->set_info(caracter);
         p ->set_next(varf_stiva);
         varf_stiva = p;
-        delete p;
-
     }
 }
 
@@ -265,19 +267,19 @@ string Stiva_de_caractere::inversare_sir_cu_stiva(string& s)
 Stiva_de_caractere Stiva_de_caractere::operator-(Stiva_de_caractere &stiva2)
 {
     Stiva_de_caractere diferenta;
-    while(!stiva2.isempty() and !this->isempty())
-        if(this->get_varf() != NULL and stiva2.get_varf() != NULL)
+    while(!stiva2.isempty() and !isempty())
+        if(get_varf() != NULL and stiva2.get_varf() != NULL)
             {
-                if(this->get_varf()->get_info() > stiva2.get_varf()->get_info())
+                if(get_varf()->get_info() > stiva2.get_varf()->get_info())
                 {
-                    diferenta.push(this->get_varf()->get_info());
-                    this->pop();
+                    diferenta.push(get_varf()->get_info());
+                    pop();
                     stiva2.pop();
                 }
                 else
                 {
                     diferenta.push(stiva2.get_varf()->get_info());
-                    this->pop();
+                    pop();
                     stiva2.pop();
                 }
             }
@@ -370,7 +372,7 @@ void menu()
     cout << "6 - Supraincarcare operator << " << '\n';
     cout << "7 - Supraincarcare operator >> " << '\n';
     cout << "8 - Inversare sir de caractere utilizand stiva" << '\n';
-    cout << "9 - Supraincarcare operator -" << '\n';
+    cout << "9 - Supraincarcare operator - (rulati aceasta optiune intre 3-6 ori daca va apare eroarea 0xC0000374 din prima rulare) SAU comentati destructorul pentru a rula din prima (se va folosi destructorul implicit)" << '\n';
     cout << "10 - Citirea, memorarea si afisarea a n obiecte citite de la tastatura" << '\n';
     cout << "0 - Iesire din program (EXIT)" << '\n';
 
@@ -565,16 +567,16 @@ void menu()
 int main()
 {
     menu();
-
+/*
     Stiva_de_caractere stiva;
     stiva.push('c');
     stiva.push('a');
     stiva.push('l');
 
     Stiva_de_caractere stiva2;
-    stiva2.push('x');
-    stiva2.push('2');
-    stiva2.push('y');
+   // stiva2.push('x');
+    //stiva2.push('2');
+    //stiva2.push('y');
 
     stiva.parcurgere_de_jos_in_sus();
 
