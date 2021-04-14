@@ -116,7 +116,24 @@ Stiva_de_caractere::Stiva_de_caractere()
 
 Stiva_de_caractere::Stiva_de_caractere(Stiva_de_caractere& stack1)
 {
-    this->varf_stiva = stack1.get_varf();
+    Stiva_de_caractere stiva_aux;
+    this->varf_stiva = NULL;
+    Nod *p = stack1.get_varf();
+    while (p != NULL)
+    {
+        stiva_aux.push(p->get_info());
+        p = p->get_next();
+    }
+    delete p;
+
+    Nod *q = stiva_aux.get_varf();
+    while (q != NULL)
+    {
+        push(q->get_info());
+        q = q->get_next();
+    }
+    delete q;
+
     cout << "Stiva a fost copiata cu succes!" << '\n';
 }
 
@@ -131,6 +148,7 @@ Stiva_de_caractere::~Stiva_de_caractere()
     delete varf_stiva;
     //cout << "Stiva a fost stearsa cu succes!"<<'\n';
 }
+
 
 Nod* Stiva_de_caractere::get_varf()
 {
@@ -547,7 +565,7 @@ void menu()
 int main()
 {
     menu();
-/*
+
     Stiva_de_caractere stiva;
     stiva.push('c');
     stiva.push('a');
